@@ -1,4 +1,4 @@
-namespace openiddict.Models
+namespace openiddictsercure.Models
 {
     public class ErrorViewModel
     {

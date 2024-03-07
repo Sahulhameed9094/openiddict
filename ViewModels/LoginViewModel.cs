@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace openiddict.ViewModels
+namespace openiddictsercure.ViewModels
 {
     public class LoginViewModel
     {

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using openiddict.Models;
+using openiddictsercure.Models;
 using System.Diagnostics;
 
-namespace openiddict.Controllers
+namespace openiddictsercure.Controllers
 {
     public class HomeController : Controller
     {

@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using openiddict.ViewModels;
+using openiddictsercure.ViewModels;
 using System.Security.Claims;
 
-namespace openiddict.Controllers
+namespace openiddictsercure.Controllers
 {
     public class AccountController : Controller
     {
