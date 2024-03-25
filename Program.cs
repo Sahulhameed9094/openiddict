@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using openiddictsercure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,6 @@ builder.Services.AddDbContext<DbContext>(options =>
 });
 
 builder.Services.AddOpenIddict()
-
         // Register the OpenIddict core components.
         .AddCore(options =>
         {
@@ -36,16 +36,24 @@ builder.Services.AddOpenIddict()
         // Register the OpenIddict server components.
         .AddServer(options =>
         {
-            options
-                .AllowClientCredentialsFlow();
+            options.AllowClientCredentialsFlow();
+            options.AllowAuthorizationCodeFlow()
+            .RequireProofKeyForCodeExchange()
+            .AllowRefreshTokenFlow();
 
             options
                 .SetTokenEndpointUris("/connect/token");
 
+
+            options.SetAuthorizationEndpointUris("/connect/authorize")
+                    .SetTokenEndpointUris("/connect/token")
+                    .SetUserinfoEndpointUris("/connect/userinfo");
+
             // Encryption and signing of tokens
             options
                 .AddEphemeralEncryptionKey()
-                .AddEphemeralSigningKey();
+                .AddEphemeralSigningKey()
+                .DisableAccessTokenEncryption();
 
             // Register scopes (permissions)
             options.RegisterScopes("api");
@@ -53,10 +61,13 @@ builder.Services.AddOpenIddict()
             // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
             options
                 .UseAspNetCore()
-                .EnableTokenEndpointPassthrough();
+                .EnableTokenEndpointPassthrough()
+                .EnableAuthorizationEndpointPassthrough()
+                .EnableUserinfoEndpointPassthrough();
         });
 
-
+//Register the test data service in Startup.cs, so it is executed when the application starts:
+builder.Services.AddHostedService<TestData>();
 
 
 var app = builder.Build();
